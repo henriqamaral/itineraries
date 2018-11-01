@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  city-mongodb:
+    image: mongo:3.4.2
+    ports:
+    - 27017:27017
+    command: mongod --smallfiles
+    environment:
+      MONGODB_USER: "city"
+      MONGODB_DATABASE: "city"
+      MONGODB_PASS: "123"
