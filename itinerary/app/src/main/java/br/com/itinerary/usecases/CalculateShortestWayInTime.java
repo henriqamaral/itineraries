@@ -4,6 +4,7 @@ import br.com.itinerary.domains.GraphRoutes;
 import br.com.itinerary.domains.Route;
 import br.com.itinerary.domains.RoutePath;
 import br.com.itinerary.domains.ShortestWayInTime;
+import br.com.itinerary.exceptions.RoutesNotFoundException;
 import br.com.itinerary.gateways.RoutesGateway;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -23,7 +24,7 @@ public class CalculateShortestWayInTime {
     final List<Route> routes = routesGateway.findRouteByFromCityName(fromCity);
 
     if (routes.isEmpty()) {
-      throw new RuntimeException("No Routes Found");
+      throw new RoutesNotFoundException("No Routes Found");
     }
 
     final List<Route> allRoutes = mountRouteList(routes, toCity);

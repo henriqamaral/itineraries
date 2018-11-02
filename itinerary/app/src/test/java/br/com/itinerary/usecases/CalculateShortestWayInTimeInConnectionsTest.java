@@ -4,7 +4,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import br.com.itinerary.domains.Route;
 import br.com.itinerary.domains.ShortestWayInConnections;
-import br.com.itinerary.domains.ShortestWayInTime;
+import br.com.itinerary.exceptions.RoutesNotFoundException;
 import br.com.itinerary.gateways.RoutesGateway;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,7 +61,7 @@ public class CalculateShortestWayInTimeInConnectionsTest {
     Assert.assertNull(shortestWayInConnections);
   }
 
-  @Test(expected = RuntimeException.class)
+  @Test(expected = RoutesNotFoundException.class)
   public void given_two_cities_fail_when_not_find_departure_city() {
 
     calculateShortestWayInConnections.execute("Sao Paulo", "Milan");
