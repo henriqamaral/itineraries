@@ -21,3 +21,8 @@ eureka:
     enabled: false
     registerWithEureka: false
     fetchRegistry: false
+
+
+feign:
+  hystrix:
+    enabled: true
