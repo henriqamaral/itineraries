@@ -1,14 +1,14 @@
-package br.com.itinerary.route.usecases;
+package br.com.route.usecases;
 
-import br.com.itinerary.route.domain.Route;
-import br.com.itinerary.route.gateways.RouteGateway;
+import br.com.route.domain.Route;
+import br.com.route.gateways.RouteGateway;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -19,16 +19,16 @@ public class GetRouteByRouteTest {
 
   @Mock private RouteGateway routeGateway;
 
-    @Before
-    public void setup() {
-        initMocks(this);
-    }
+  @Before
+  public void setup() {
+    initMocks(this);
+  }
 
   @Test
   public void given_route_name_should_return_route() {
     final Route route = new Route("Sao Paulo", "Rio de Janeiro", "", "");
 
-    Mockito.when(routeGateway.getByCityName(Mockito.anyString())).thenReturn(Mono.just(route));
+    Mockito.when(routeGateway.getByCityName(Mockito.anyString())).thenReturn(Flux.just(route));
 
     StepVerifier.create(getRouteByCity.execute("Sao Paulo"))
         .assertNext(routeReturn -> Assert.assertEquals(route.getId(), routeReturn.getId()))
@@ -38,7 +38,7 @@ public class GetRouteByRouteTest {
   @Test
   public void given_route_name_should_return_empty() {
 
-    Mockito.when(routeGateway.getByCityName(Mockito.anyString())).thenReturn(Mono.empty());
+    Mockito.when(routeGateway.getByCityName(Mockito.anyString())).thenReturn(Flux.empty());
 
     StepVerifier.create(getRouteByCity.execute("Sao Paulo")).verifyComplete();
   }

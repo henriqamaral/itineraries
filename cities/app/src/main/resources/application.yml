@@ -16,6 +16,12 @@ management:
     health:
       show-details: always
 
+eureka:
+  client:
+    enabled: false
+    registerWithEureka: false
+    fetchRegistry: false
+
 spring:
   data:
     mongodb:

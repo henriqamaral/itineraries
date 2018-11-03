@@ -1,4 +1,4 @@
-package br.com.itinerary.route;
+package br.com.route;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;

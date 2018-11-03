@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.henrique.inineraries</groupId>
-    <artifactId>cities</artifactId>
+    <groupId>com.henrique</groupId>
+    <artifactId>routes</artifactId>
     <version>1.0</version>
 
     <parent>
@@ -18,7 +18,7 @@
     <properties>
         <java.version>1.8</java.version>
         <spring-cloud.version>Finchley.SR1</spring-cloud.version>
-        <springfox.swagger.version>2.5.0</springfox.swagger.version>
+        <springfox.swagger.version>2.9.2</springfox.swagger.version>
         <lombok.version>1.16.8</lombok.version>
         <commons.io.version>2.5</commons.io.version>
         <commons.net.version>3.5</commons.net.version>
@@ -55,8 +55,12 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webflux</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>≤
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
@@ -64,6 +68,10 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-actuator</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -97,7 +105,6 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${springfox.swagger.version}</version>
         </dependency>
-
 
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -227,14 +234,6 @@
                                         <exclude>**.*domains.**</exclude>
                                         <exclude>**.*documents.**</exclude>
                                         <exclude>**.*resources.**</exclude>
-                                        <exclude>**.*dto.**</exclude>
-                                        <exclude>**.*mapper.**</exclude>
-                                        <exclude>**.*tasklet.**</exclude>
-                                        <exclude>**.*tasklet.**</exclude>
-                                        <exclude>**.*listener.**</exclude>
-                                        <exclude>**.*ConvertToCSV</exclude>
-                                        <exclude>**.*ExcelFilenameFilter</exclude>
-                                        <exclude>**.*LoaderUtils</exclude>
                                         <exclude>**.*Application</exclude>
                                     </excludes>
                                     <limits>
@@ -273,6 +272,34 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+                <version>1.5.6</version>
+                <executions>
+                    <execution>
+                        <id>generate-docs</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                        <configuration>
+                            <backend>html</backend>
+                            <doctype>book</doctype>
+                            <attributes>
+                                <project-version>${project.version}</project-version>
+                            </attributes>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.springframework.restdocs</groupId>
+                        <artifactId>spring-restdocs-asciidoctor</artifactId>
+                        <version>2.0.0.RELEASE</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
