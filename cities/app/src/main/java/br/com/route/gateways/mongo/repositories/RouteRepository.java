@@ -9,4 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface RouteRepository extends MongoRepository<Route, String> {
 
   List<Route> findByFrom(String cityName);
+
+  Route findByFromAndDestinyAndDepartureTimeAndArrivalTime(
+      String cityName, String destinyCity, String departureTime, String arrivalTime);
 }

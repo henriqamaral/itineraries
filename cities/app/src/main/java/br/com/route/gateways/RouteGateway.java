@@ -5,5 +5,9 @@ import java.util.List;
 
 public interface RouteGateway {
 
-    List<Route> getByCityName(String cityName);
+  List<Route> getByCityName(String cityName);
+
+  Route create(Route route);
+
+  Route findRouteByAllFields(Route route);
 }

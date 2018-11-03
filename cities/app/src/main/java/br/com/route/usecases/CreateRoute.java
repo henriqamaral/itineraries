@@ -2,17 +2,20 @@ package br.com.route.usecases;
 
 import br.com.route.domain.Route;
 import br.com.route.gateways.RouteGateway;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
-public class GetRouteByCity {
+public class CreateRoute {
 
   private final RouteGateway routeGateway;
 
-  public List<Route> execute(final String cityName) {
-    return routeGateway.getByCityName(cityName);
+  private final RouteValidator routeValidator;
+
+  public Route execute(final Route route) {
+    routeValidator.execute(route);
+    return routeGateway.create(route);
   }
+
 }

@@ -22,3 +22,6 @@ docker build -t route:master --file=infra/Dockerfile .
 ```
 docker-compose -f infra/docker-compose-dev.yml up -d
 ```
+
+
+#### Added initial data

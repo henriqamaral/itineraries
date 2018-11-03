@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -11,10 +13,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@CompoundIndexes({
+    @CompoundIndex(name = "routeIndex", def = "{from : 1, destiny : 1, departureTime : 1, arrivalTime : 1}", background = true)
+})
 public class Route {
   @Id private String id;
   @Indexed private String from;
-  @Indexed private String destiny;
+  private String destiny;
   private String departureTime;
   private String arrivalTime;
 
