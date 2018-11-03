@@ -226,10 +226,10 @@
                                     <element>CLASS</element>
                                     <excludes>
                                         <!-- COMMON COVERAGE EXCLUSIONS -->
-                                        <exclude>**.*conf.**</exclude>
+                                        <exclude>**.*config.**</exclude>
                                         <exclude>**.*domains.**</exclude>
-                                        <exclude>**.*documents.**</exclude>
-                                        <exclude>**.*resources.**</exclude>
+                                        <exclude>**.*handler.**</exclude>
+                                        <exclude>**.*jsons.**</exclude>
                                         <exclude>**.*Application</exclude>
                                     </excludes>
                                     <limits>

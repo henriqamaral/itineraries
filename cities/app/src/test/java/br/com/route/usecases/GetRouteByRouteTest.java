@@ -5,7 +5,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import br.com.route.domain.Route;
 import br.com.route.gateways.RouteGateway;
-import java.util.Arrays;
 import java.util.Collections;
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,9 +28,10 @@ public class GetRouteByRouteTest {
   public void given_route_name_should_return_route() {
     final Route route = new Route("Sao Paulo", "Rio de Janeiro", "", "");
 
-    Mockito.when(routeGateway.getByCityName(Mockito.anyString())).thenReturn(Arrays.asList(route));
+    Mockito.when(routeGateway.getByCityName(Mockito.anyString())).thenReturn(
+        Collections.singletonList(route));
 
-    Assert.assertThat(Arrays.asList(route), is(getRouteByCity.execute("Sao Paulo")));
+    Assert.assertThat(Collections.singletonList(route), is(getRouteByCity.execute("Sao Paulo")));
   }
 
   @Test

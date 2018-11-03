@@ -1,6 +1,7 @@
 package br.com.route.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -14,8 +15,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @Getter
 @CompoundIndexes({
-    @CompoundIndex(name = "routeIndex", def = "{from : 1, destiny : 1, departureTime : 1, arrivalTime : 1}", background = true)
+  @CompoundIndex(
+      name = "routeIndex",
+      def = "{from : 1, destiny : 1, departureTime : 1, arrivalTime : 1}",
+      background = true)
 })
+@EqualsAndHashCode(exclude = {"id"})
 public class Route {
   @Id private String id;
   @Indexed private String from;
