@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/itinerary")
-@Api(description = "Rest API for Loader Status")
+@Api(description = "Rest API for Itinerary")
 @AllArgsConstructor
 public class ItineraryController {
 
@@ -36,7 +36,7 @@ public class ItineraryController {
       value = {
         @ApiResponse(code = 200, message = "Success"),
         @ApiResponse(code = 400, message = "Request invalid or malformed."),
-        @ApiResponse(code = 204, message = "Resource not found."),
+        @ApiResponse(code = 404, message = "Resource not found."),
         @ApiResponse(code = 500, message = "Internal Server or Business error.")
       })
   public ResponseEntity getShortestWayInTime(
@@ -61,7 +61,7 @@ public class ItineraryController {
       value = {
         @ApiResponse(code = 200, message = "Success"),
         @ApiResponse(code = 400, message = "Request invalid or malformed."),
-        @ApiResponse(code = 204, message = "Resource not found."),
+        @ApiResponse(code = 404, message = "Resource not found."),
         @ApiResponse(code = 500, message = "Internal Server or Business error.")
       })
   public ResponseEntity getShortestWayInConnections(
