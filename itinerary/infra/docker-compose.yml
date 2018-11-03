@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  zuul:
+    image: zuul:master
+    ports:
+    - 8088:8088
+    links:
+    - eureka
+    networks:
+    - serv-network
+  itinerary:
+    image: itinerary:master
+    ports:
+      - 8082
+    links:
+      - eureka
+    networks:
+      - serv-network
+  route:
+    image: route:master
+    ports:
+      - 8081
+    links:
+      - route-mongodb
+      - eureka
+    environment:
+      PROFILE: "stg"
+    networks:
+      - serv-network
+  route-mongodb:
+    image: mongo:3.4.2
+    ports:
+      - 27017:27017
+    command: mongod --smallfiles
+    networks:
+      - serv-network
+  eureka:
+    image: discovery:master
+    ports:
+      - 8761:8761
+    networks:
+      - serv-network
+    environment:
+      PROFILE: "dev"
+
+networks:
+  serv-network:
+    driver: bridge

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/itinerary")
+@RequestMapping("/itineraries")
 @Api(description = "Rest API for Itinerary")
 @AllArgsConstructor
 public class ItineraryController {

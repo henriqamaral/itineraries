@@ -1,9 +1,17 @@
+server:
+  port: 8081
+
 spring:
   data:
     mongodb:
       uri: mongodb://route-mongodb/city
 
 eureka:
+  instance:
+    prefer-ip-address: true
+    leaseRenewalIntervalInSeconds: 3
+    leaseExpirationDurationInSeconds: 10
+    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
   client:
     enabled: true
     registerWithEureka: true

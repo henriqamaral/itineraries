@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: 8088
 
 logging:
   level:
@@ -27,20 +27,12 @@ eureka:
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:8761/eureka/
 
-ribbon:
-  eureka:
-    enabled: true
-
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 5000
-
-
-
-feign:
-  hystrix:
-    enabled: true
+zuul:
+  ignoredServices: '*'
+  routes:
+    itinerary:
+      path: /itinerary/**
+      serviceId: itinerary
+    route:
+      path: /route/**
+      serviceId: route
