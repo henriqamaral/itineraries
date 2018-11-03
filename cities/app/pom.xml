@@ -179,11 +179,11 @@
                 <version>${pitest-plugin.version}</version>
                 <configuration>
                     <targetClasses>
-                        <param>com.henrique.itineraries.cities.usecases.*</param>
+                        <param>br.com.route.usecases.*</param>
                     </targetClasses>
                     <targetTests>
-                        <param>com.henrique.itineraries.cities.usecases.*</param>
-                        <param>com.henrique.itineraries.cities.usecases.*</param>
+                        <param>br.com.route.usecases.*</param>
+                        <param>br.com.route.usecases.*</param>
                     </targetTests>
                     <failWhenNoMutations>false</failWhenNoMutations>
                     <mutationThreshold>80</mutationThreshold>

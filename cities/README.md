@@ -9,6 +9,7 @@ docker-compose -f infra/docker-compose.yml up -d
 #### Running tests
 
 * mvn -f app/pom.xml clean test
+* mvn -f app/pom.xml org.pitest:pitest-maven:mutationCoverage -U -DtimestampedReports=false -Dthreads=4
 
 #### Creating Docker image
 
