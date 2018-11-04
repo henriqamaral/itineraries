@@ -21,6 +21,23 @@ Method	| Path	| Description
 GET	| /routes?cityName={cityName}	| Return the routes by origin city
 POST | /routes/	| Create a new route
 
+-Example json API GET:
+```
+[
+  {
+    "from": "Sao Paulo",
+    "destiny": "Macapa",
+    "departureTime": "9:00",
+    "arrivalTime": "11:00"
+  },
+  {
+    "from": "Sao Paulo",
+    "destiny": "Salvador",
+    "departureTime": "9:00",
+    "arrivalTime": "19:00"
+  }
+]
+```
 ##### The project has a README how to run the tests and build the DOCKERFILE
 
 
@@ -31,6 +48,24 @@ Method	| Path	| Description
 ------------- | ------------------------- | ------------- |
 GET	| /calculateShortestTime?fromCity={fromCity}&destinyCity={destinyCity}	| Return Shortest Way in Time
 GET	| /calculateShortestConnections?fromCity={fromCity}&destinyCity={destinyCity}	| Return Shortest Way in Number of Connections
+
+-Example json API GET calculateShortestTime:
+```
+{
+  "arrivalCity": "Sao Paulo",
+  "departureCity": "Salvador",
+  "totalHours": 5
+}
+```
+
+-Example json API GET calculateShortestConnections:
+```
+{
+  "arrivalCity": "Sao Paulo",
+  "departureCity": "Salvador",
+  "totalConnections": 1
+}
+```
 
 ##### The project has a README how to run the tests and build the DOCKERFILE
 
@@ -85,17 +120,46 @@ docker-compose -f itinerary/infra/docker-compose.yml up -d
 Example:
 ```
 curl -X POST "http://localhost:8088/route/routes" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"from\" : \"Sao Paulo\",\"destiny\" : \"Macapa\",\"departureTime\" : \"9:00\",\"arrivalTime\" : \"11:00\"}"
-curl -X POST "http://localhost:8088/route/routes" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"from\" : \"Macapa",\"destiny\" : \"Rio de Janeiro\",\"departureTime\" : \"9:00\",\"arrivalTime\" : \"11:00\"}"
-curl -X POST "http://localhost:8088/route/routes" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"from\" : \"Rio de Janeiro",\"destiny\" : \"Salvador\",\"departureTime\" : \"12:00\",\"arrivalTime\" : \"16:00\"}"
-curl -X POST "http://localhost:8088/route/routes" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"from\" : \"Sao Paulo",\"destiny\" : \"Salvador\",\"departureTime\" : \"9:00\",\"arrivalTime\" : \"19:00\"}"
+curl -X POST "http://localhost:8088/route/routes" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"from\" : \"Macapa\",\"destiny\" : \"Rio de Janeiro\",\"departureTime\" : \"9:00\",\"arrivalTime\" : \"11:00\"}"
+curl -X POST "http://localhost:8088/route/routes" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"from\" : \"Rio de Janeiro\",\"destiny\" : \"Salvador\",\"departureTime\" : \"12:00\",\"arrivalTime\" : \"16:00\"}"
+curl -X POST "http://localhost:8088/route/routes" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"from\" : \"Sao Paulo\",\"destiny\" : \"Salvador\",\"departureTime\" : \"9:00\",\"arrivalTime\" : \"19:00\"}"
 ```
 
+## Running
+```
+docker-compose -f itinerary/infra/docker-compose.yml stop
+```
+## Requests Examples
+
+```
+Shortest Connections
+http://localhost:8088/itinerary/itineraries/calculateShortestConnections?destinyCity=Salvador&fromCity=Sao%20Paulo
+
+{
+  "departureCity": "Sao Paulo",
+  "arrivalCity": "Salvador",
+  "totalConnections": 1
+}
+```
+
+```
+Shortest Time
+http://localhost:8088/itinerary/itineraries/calculateShortestTime?destinyCity=Salvador&fromCity=Sao%20Paulo
+
+{
+  "departureCity": "Sao Paulo",
+  "arrivalCity": "Salvador",
+  "totalHours": 8
+}
+```
 ## Acessing Swagger Documentation
 - Here how we can access the api documentation:
 ```
-http://localhost:8088/route/swagger-ui.html
-http://localhost:8088/itinerary/swagger-ui.html
+http://localhost:8088/swagger-ui.html
 ```
+- You can select the API as showed in the image below:
+
+
 
 ## Scale the projects
 - We can scale the *routes* and *itineraries* API's
