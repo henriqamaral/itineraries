@@ -158,6 +158,7 @@ http://localhost:8088/itinerary/itineraries/calculateShortestTime?destinyCity=Sa
 http://localhost:8088/swagger-ui.html
 ```
 - You can select the API as showed in the image below:
+<img width="880" alt="Infrastructure services" src="https://github.com/henriqamaral/itineraries/blob/master/Captura%20de%20Tela%202018-11-03%20a%CC%80s%2022.33.40.png">
 
 
 
