@@ -9,7 +9,9 @@
 * Spring Eureka
 * Spring Zuul
 
+## Infra Example
 
+<img width="880" alt="Infrastructure services" src="https://github.com/henriqamaral/itineraries/blob/master/network.png">
 
 ## Services
 
