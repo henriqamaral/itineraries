@@ -3,12 +3,12 @@ package br.com.itinerary.usecases;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import br.com.itinerary.domains.Route;
+import br.com.itinerary.domains.RoutePath;
 import br.com.itinerary.domains.ShortestWayInConnections;
-import br.com.itinerary.exceptions.RoutesNotFoundException;
-import br.com.itinerary.gateways.RoutesGateway;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +19,7 @@ import org.mockito.Mockito;
 public class CalculateShortestWayInTimeInConnectionsTest {
 
   @InjectMocks private CalculateShortestWayInConnections calculateShortestWayInConnections;
-  @Mock private RoutesGateway routesGateway;
+  @Mock private MountRoutPath mountRoutPath;
 
   @Before
   public void setup() {
@@ -29,17 +29,8 @@ public class CalculateShortestWayInTimeInConnectionsTest {
   @Test
   public void given_two_cities_calculate_the_itinerary_with_success() {
 
-    final Route routeOne = new Route("Sao Paulo", "Macapa", "9:00", "11:00");
-    final Route routeFive = new Route("Macapa", "Rio de Janeiro", "9:00", "11:00");
-    final Route routeTwo = new Route("Rio de Janeiro", "Salvador", "12:00", "16:00");
-    final Route routeThree = new Route("Sao Paulo", "Salvador", "9:00", "19:00");
-
-    Mockito.when(routesGateway.findRouteByFromCityName("Sao Paulo"))
-        .thenReturn(new ArrayList<>(Arrays.asList(routeOne, routeThree)));
-    Mockito.when(routesGateway.findRouteByFromCityName("Macapa"))
-        .thenReturn(new ArrayList<>(Collections.singletonList(routeFive)));
-    Mockito.when(routesGateway.findRouteByFromCityName("Rio de Janeiro"))
-        .thenReturn(new ArrayList<>(Collections.singletonList(routeTwo)));
+    Mockito.when(mountRoutPath.execute(Mockito.anyString(), Mockito.anyString()))
+        .thenReturn(mountPaths());
 
     final ShortestWayInConnections shortestWayInConnections =
         calculateShortestWayInConnections.execute("Sao Paulo", "Salvador");
@@ -50,10 +41,8 @@ public class CalculateShortestWayInTimeInConnectionsTest {
   @Test
   public void given_two_cities_fail_when_not_find_destiny_city() {
 
-    final Route routeOne = new Route("Sao Paulo", "Macapa", "9:00", "11:00");
-
-    Mockito.when(routesGateway.findRouteByFromCityName("Sao Paulo"))
-        .thenReturn(new ArrayList<>(Collections.singletonList(routeOne)));
+    Mockito.when(mountRoutPath.execute(Mockito.anyString(), Mockito.anyString()))
+        .thenReturn(Collections.emptyList());
 
     final ShortestWayInConnections shortestWayInConnections =
         calculateShortestWayInConnections.execute("Sao Paulo", "Milan");
@@ -61,9 +50,17 @@ public class CalculateShortestWayInTimeInConnectionsTest {
     Assert.assertNull(shortestWayInConnections);
   }
 
-  @Test(expected = RoutesNotFoundException.class)
-  public void given_two_cities_fail_when_not_find_departure_city() {
+  private List<RoutePath> mountPaths() {
 
-    calculateShortestWayInConnections.execute("Sao Paulo", "Milan");
+    final Route routeOne = new Route("Sao Paulo", "Macapa", "9:00", "11:00");
+    final Route routeFive = new Route("Macapa", "Rio de Janeiro", "9:00", "11:00");
+    final Route routeTwo = new Route("Rio de Janeiro", "Salvador", "12:00", "16:00");
+    final Route routeThree = new Route("Sao Paulo", "Salvador", "9:00", "19:00");
+
+    RoutePath lastPath = new RoutePath(routeTwo);
+    RoutePath middlePath = new RoutePath(routeFive, lastPath);
+    RoutePath firstPath = new RoutePath(routeOne, middlePath);
+
+    return new ArrayList<>(Arrays.asList(firstPath, new RoutePath(routeThree)));
   }
 }

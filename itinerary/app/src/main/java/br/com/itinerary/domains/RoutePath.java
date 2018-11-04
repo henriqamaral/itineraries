@@ -14,6 +14,10 @@ public class RoutePath {
   private Route route;
   private RoutePath nextRoutePath;
 
+  public RoutePath(final Route route) {
+    this.route = route;
+  }
+
   public RoutePath(final RoutePath routePath, RoutePath nextRoutePath) {
     route = routePath.getRoute();
     this.nextRoutePath = nextRoutePath;
