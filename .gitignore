@@ -190,3 +190,7 @@ hs_err_pid*
 
 app/image123.jpg
 app/imageFtp.jpg
+
+
+# Vs code
+.vscode

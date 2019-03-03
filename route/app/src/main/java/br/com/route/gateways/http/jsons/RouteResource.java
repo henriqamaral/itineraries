@@ -1,12 +1,15 @@
 package br.com.route.gateways.http.jsons;
 
 import br.com.route.domain.Route;
-import javax.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotEmpty;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class RouteResource {
 
   @NotEmpty(message = "{field.not.null}")

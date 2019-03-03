@@ -1,15 +1,13 @@
 package br.com.route.gateways.mongo.repositories;
 
 import br.com.route.domain.Route;
-import java.util.List;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Flux;
 
 @Repository
-public interface RouteRepository extends MongoRepository<Route, String> {
+public interface RouteRepository extends ReactiveMongoRepository<Route, String> {
 
-  List<Route> findByFrom(String cityName);
+  Flux<Route> findByFrom(String cityName);
 
-  Route findByFromAndDestinyAndDepartureTimeAndArrivalTime(
-      String cityName, String destinyCity, String departureTime, String arrivalTime);
 }

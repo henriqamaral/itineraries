@@ -16,6 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Getter
 @CompoundIndexes({
   @CompoundIndex(
+      unique = true,
       name = "routeIndex",
       def = "{from : 1, destiny : 1, departureTime : 1, arrivalTime : 1}",
       background = true)

@@ -1,13 +1,12 @@
 package br.com.route.gateways;
 
 import br.com.route.domain.Route;
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public interface RouteGateway {
 
-  List<Route> getByCityName(String cityName);
+  Flux<Route> getByCityName(String cityName);
 
-  Route create(Route route);
-
-  Route findRouteByAllFields(Route route);
+  Mono<Route> create(Route route);
 }
