@@ -1,9 +1,9 @@
 package br.com.itinerary.gateways;
 
 import br.com.itinerary.domains.Route;
-import java.util.List;
+import reactor.core.publisher.Flux;
 
 public interface RoutesGateway {
 
-  List<Route> findRouteByFromCityName(String fromCity);
+  Flux<Route> findRouteByFromCityName(String fromCity);
 }

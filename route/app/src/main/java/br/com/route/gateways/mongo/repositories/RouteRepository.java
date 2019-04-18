@@ -9,5 +9,6 @@ import reactor.core.publisher.Flux;
 public interface RouteRepository extends ReactiveMongoRepository<Route, String> {
 
   Flux<Route> findByFrom(String cityName);
+  Flux<Route> findByDestiny(String cityName);
 
 }

@@ -3,31 +3,35 @@ package br.com.itinerary.gateways.http.router;
 import br.com.itinerary.domains.Route;
 import br.com.itinerary.exceptions.FailCommunicationException;
 import br.com.itinerary.gateways.RoutesGateway;
-import br.com.itinerary.gateways.http.router.integration.RouterIntegration;
 import br.com.itinerary.gateways.http.router.integration.jsons.RouteResource;
-import com.netflix.hystrix.exception.HystrixRuntimeException;
-import java.util.List;
-import java.util.stream.Collectors;
-import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Component
-@AllArgsConstructor
 public class RoutesClientGateway implements RoutesGateway {
 
-  private RouterIntegration routerIntegration;
+  private final WebClient webClient;
+
+  public RoutesClientGateway(WebClient.Builder webClientBuilder) {
+    this.webClient = webClientBuilder.baseUrl("http://localhost:8081").build();
+  }
 
   @Override
-  public List<Route> findRouteByFromCityName(final String fromCity) {
+  public Flux<Route> findRouteByFromCityName(final String fromCity) {
 
-    try {
-      return routerIntegration
-          .findRoutes(fromCity)
-          .stream()
-          .map(RouteResource::toDomain)
-          .collect(Collectors.toList());
-    } catch (HystrixRuntimeException e) {
-      throw new FailCommunicationException("Failed to calculate");
-    }
+    final Mono<Throwable> failedToCalculate =
+        Mono.error(new FailCommunicationException("Failed to calculate"));
+
+    return webClient
+        .get()
+        .uri("/routes?cityName={cityName}" , fromCity)
+        .retrieve()
+        .onStatus(HttpStatus::is4xxClientError, clientResponse -> failedToCalculate)
+        .onStatus(HttpStatus::is5xxServerError, clientResponse -> failedToCalculate)
+        .bodyToFlux(RouteResource.class)
+        .map(RouteResource::toDomain);
   }
 }

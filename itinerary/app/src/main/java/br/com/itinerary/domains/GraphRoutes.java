@@ -1,56 +1,31 @@
 package br.com.itinerary.domains;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public class GraphRoutes {
 
-  private final List<Route> routes;
+  private final Flux<Route> routes;
 
-  public GraphRoutes(final List<Route> routes) {
-
+  public GraphRoutes(final Flux<Route> routes) {
     this.routes = routes;
   }
 
-  public List<RoutePath> calculate(final String startCity, final String endCity) {
+  public Flux<RoutePath> calculate(final String startCity, final String endCity) {
 
-    final List<Route> origins = createOriginList(startCity, routes);
-
-    return origins
-        .stream()
-        .map(route -> mountPath(route, endCity, routes))
-        .collect(Collectors.toList());
+    return routes
+        .filter(r -> r.getDestiny().equals(endCity))
+        .flatMap(route -> findPath(route, startCity));
   }
 
-  private RoutePath mountPath(Route route, String endCity, List<Route> searchRoutes) {
+  private Mono<RoutePath> findPath(final Route route, final String originCity) {
 
-    if (route.getDestiny().equals(endCity)) {
-      return new RoutePath(route, null);
-    } else {
-      final List<Route> origins = createOriginList(route.getDestiny(), searchRoutes);
-
-      if (origins != null && !origins.isEmpty()) {
-        final List<RoutePath> paths =
-            origins
-                .stream()
-                .map(r -> mountPath(r, endCity, searchRoutes))
-                .collect(Collectors.toList());
-
-        RoutePath newPath = new RoutePath(route, null);
-        for (RoutePath path : paths) {
-          newPath = new RoutePath(newPath, path);
-        }
-        return newPath;
-      }
+    if (route.getFrom().equals(originCity)) {
+      return Mono.just(new RoutePath(route, null));
     }
 
-    return null;
-  }
-
-  private List<Route> createOriginList(final String originCity, List<Route> routes) {
-    return routes
-        .stream()
-        .filter(route -> route.getFrom().equals(originCity))
-        .collect(Collectors.toList());
+    return routes.filter(r -> r.getDestiny().equals(route.getFrom()))
+        .flatMap(r -> findPath(r, originCity))
+        .reduce(new RoutePath(route), (a , b) -> new RoutePath(b, a));
   }
 }

@@ -1,10 +1,11 @@
 package br.com.itinerary.domains;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Optional;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
@@ -20,7 +21,11 @@ public class RoutePath {
 
   public RoutePath(final RoutePath routePath, RoutePath nextRoutePath) {
     route = routePath.getRoute();
-    this.nextRoutePath = nextRoutePath;
+    if (routePath.getNextRoutePath() != null) {
+      this.nextRoutePath = new RoutePath(routePath.getNextRoutePath().getRoute(), nextRoutePath);
+    } else {
+      this.nextRoutePath = nextRoutePath;
+    }
   }
 
   public String getArrivalCity() {
@@ -41,6 +46,12 @@ public class RoutePath {
 
     return Optional.ofNullable(nextRoutePath).map(RoutePath::getTotalConnections).orElse(0)
         + MIN_CONNECTION;
+  }
+
+  @Override
+  public String toString() {
+    return route.toString()
+        + Optional.ofNullable(nextRoutePath).map(RoutePath::toString).orElse("");
   }
 
   private Long calculateTotalTime() {

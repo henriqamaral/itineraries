@@ -16,7 +16,7 @@ public class RouteMongoGateway implements RouteGateway {
 
   @Override
   public Flux<Route> getByCityName(final String cityName) {
-    return routeRepository.findByFrom(cityName);
+    return routeRepository.findByDestiny(cityName);
   }
 
   @Override

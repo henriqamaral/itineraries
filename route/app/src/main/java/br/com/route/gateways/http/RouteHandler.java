@@ -21,6 +21,7 @@ public class RouteHandler {
   private final GetRouteByCity getRouteByCity;
 
   public Mono<ServerResponse> get(final ServerRequest serverRequest) {
+    System.out.println("chamando aqui: " + serverRequest.queryParam("cityName").get());
     return serverRequest
         .queryParam("cityName")
         .map(
